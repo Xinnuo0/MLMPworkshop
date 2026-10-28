@@ -1,4 +1,4 @@
-# Workshop 02 — AI Project Survival
+# Workshop 02 — Depth Anything V2
 
 ## 1. Project Overview
 
