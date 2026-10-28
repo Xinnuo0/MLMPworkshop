@@ -2,12 +2,8 @@
 
 ## 1. Project Overview
 
-**Project:** Depth Anything V2  
 **Repository:** [Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2)  
-**Task:** Monocular depth estimation  
-**Model:** Depth Anything V2 ViT-L (Large), pretrained checkpoint
-
-The goal of this workshop is to inspect an existing AI repository, configure its Python environment, run inference using a pretrained model, identify and resolve a real failure, and document the process so that another person can reproduce the result.
+**Inference task:** This project uses the pretrained AI model Depth Anything V2 to estimate the relative depth of objects and their surroundings from a single image. The ViT-L model processes sample images and generates depth maps.
 
 ## 2. Repository Map
 
