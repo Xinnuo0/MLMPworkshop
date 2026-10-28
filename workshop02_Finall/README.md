@@ -9,7 +9,7 @@
 
 The goal of this workshop is to inspect an existing AI repository, configure its Python environment, run inference using a pretrained model, identify and resolve a real failure, and document the process so that another person can reproduce the result.
 
-## 2 Repository Map
+## 2. Repository Map
 
 | Component | Description |
 |---|---|
