@@ -624,3 +624,126 @@ __pycache__/
 The dependency lockfile and this README should remain in the parent `Depth-Anything-V2-Reproduction/` directory.
 
 **Important:** This guide has been tested against the specified configuration. Different GPU hardware, NVIDIA drivers and operating system configurations may affect inference performance and compatibility.
+
+
+## 7. One Real Failure
+
+**Category:** Checkpoint / asset
+
+### Root cause
+
+The original `depth_anything_v2_vitl.pth` checkpoint was corrupted or incompletely downloaded.
+
+### Observed impact
+
+The model could not be used reliably with the original checkpoint.
+
+### Minimal fix
+
+Download the official Depth Anything V2 ViT-L checkpoint again and replace the corrupted or incomplete file.
+
+### Verification
+
+Rerun the inference command:
+
+```bash
+python run.py --encoder vitl --img-path assets/examples --outdir depth_vis
+```
+
+The rerun processed all 20 example images and generated 20 PNG output files.
+
+### Lesson learned
+
+A model checkpoint is a critical project asset. When inference fails during model loading, verify that the checkpoint exists and is a complete, valid download before investigating unrelated dependencies.
+
+## 8. Warnings
+
+During execution, the following warning was observed:
+
+```text
+xFormers not available
+```
+
+Despite this warning, inference completed successfully for all 20 example images. The warning did not prevent successful inference, so it did not need to be resolved for this workshop run.
+
+## 9. AI Coding Agent
+
+**AI coding agent used:** GitHub Copilot
+
+### Reported change
+
+The agent was asked to change the Python version used by the virtual environment to Python 3.10. The reported agent-assisted change was limited to this environment setting.
+
+### Verification
+
+The environment was configured with Python 3.10.20, and pretrained inference subsequently processed 20 images and generated 20 PNG files. Re-downloading the checkpoint was a separate troubleshooting action.
+
+## 10. Reproducibility Test
+
+The original successful run demonstrates that inference works in the current environment. It does not by itself prove that another person can reproduce the result from a clean setup. A fresh-clone reproduction test is still needed.
+
+### Planned procedure
+
+1. Clone the repository into a new directory.
+2. Create a new virtual environment.
+3. Install the required dependencies.
+4. Download and verify the official pretrained checkpoint.
+5. Run inference using the documented command.
+6. Confirm that all 20 example images are processed.
+7. Verify the generated PNG files.
+8. Ask another student to follow this README independently.
+9. Record their feedback and update the instructions.
+
+**Fresh-clone reproduction status:** Pending  
+**Peer reproduction status:** Pending  
+**README revision based on peer feedback:** Pending
+
+## 11. Submission Evidence
+
+The final workshop submission should be organized under:
+
+```text
+MLMPworkshop/
+└── workshop02_AI_Project_Survival/
+    ├── README.md
+    └── evidence/
+        ├── input/
+        └── output/
+```
+
+### Recommended evidence
+
+- **Input evidence:** Representative example input image(s), or a reference to the repository's existing example images.
+- **Output evidence:** Representative generated depth visualization(s).
+- **Execution evidence:** Terminal output showing the inference command and successful processing.
+- **Verification evidence:** An output file listing showing the generated PNG files.
+- **Failure evidence:** The original checkpoint error, if available.
+- **Fix evidence:** A note showing that the official checkpoint was downloaded again.
+- **Reproducibility evidence:** Fresh-clone test results and peer feedback, once available.
+
+The generated outputs total approximately 86 MB. Unless the instructor requires every output file, a few representative images and a clear verification record may be sufficient instead of copying the entire output directory.
+
+## 12. Current Status
+
+**Core inference task: COMPLETED**
+
+| Requirement | Status |
+|---|---|
+| Inspect the repository | Completed |
+| Configure the Python environment | Completed |
+| Install dependencies | Completed |
+| Resolve the checkpoint failure | Completed |
+| Run pretrained inference | Completed |
+| Process 20 example images | Completed |
+| Generate 20 PNG outputs | Completed |
+| Document the workflow | Completed |
+| Fresh-clone reproduction | Pending |
+| Peer reproduction | Pending |
+| Revise README based on feedback | Pending |
+| Finalize submission evidence | Pending |
+
+## 13. Conclusion
+
+The pretrained inference task for Workshop 02 has been completed successfully in the original working environment. The model processed all 20 example images and generated 20 PNG output files.
+
+The next objective is to reproduce the result from a fresh clone, obtain peer feedback, and finalize the submission evidence.
