@@ -1,215 +1,304 @@
-# Workshop 02 — Depth Anything V2
+# Depth Anything V2 — Installation and Reproduction Guide
 
 ## 1. Project Overview
 
 **Repository:** [Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2)  
 **Inference task:** This project uses the pretrained AI model Depth Anything V2 to estimate the relative depth of objects and their surroundings from a single image. The ViT-L model processes sample images and generates depth maps.
 
-## 2. Repository Map
+### Tested configuration
 
-| Component | Description |
+| Component | Version / Configuration |
 |---|---|
 | Repository | Depth Anything V2 |
-| Environment | Python 3.10.20 and `.venv` |
-| Dependencies | `requirements.txt` |
-| Entry point | `run.py` |
-| Model | Depth Anything V2 ViT-L pretrained model |
-| Checkpoint | `checkpoints/depth_anything_v2_vitl.pth` |
-| Input | `assets/examples/` |
-| Output | `depth_vis/` |
+| Git commit | `a561b849ebae10a6f5ef49e26c83cbbcd36c71bf` |
+| Python | 3.10.20 |
+| PyTorch | 2.14.1+cu130 |
+| Torchvision | 0.29.2+cu132 |
+| Model | ViT-L |
+| Checkpoint | `depth_anything_v2_vitl.pth` |
+| Input images | 20 JPG files |
+| Expected outputs | 20 PNG files |
+| Tested output size | Approximately 86 MB |
 
-The `run.py` script loads the selected pretrained model, processes the example images, and saves depth visualizations to the output directory. The ViT-L checkpoint must be available at the expected path before inference can run successfully.
+**Important:** Use the specified Git commit and Python version. Do not use the system-default Python interpreter.
 
-## 3. Environment Setup
+## 2. Requirements
 
-The following commands describe the environment setup used for this project:
+- RHEL 8 or RHEL 9 (x86_64).
+- Internet connection.
+- At least 3 GB of free disk space.
+- Git and curl.
+- NVIDIA GPU is optional. CPU inference is supported but may be slower.
+
+The instructions use `uv` to install and manage Python 3.10.20 independently of the system Python.
+
+## 3. Installation
+
+### Step 1 — Install system dependencies
+
+Open a terminal and run:
+
+```bash
+sudo dnf install -y git curl mesa-libGL glib2 libgomp
+```
+
+### Step 2 — Install uv
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Add uv to the current shell PATH:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Verify the installation:
+
+```bash
+uv --version
+```
+
+### Step 3 — Clone the repository
 
 ```bash
 git clone https://github.com/DepthAnything/Depth-Anything-V2.git
 cd Depth-Anything-V2
-uv python install 3.10
-uv venv --python 3.10
-source .venv/bin/activate
-uv pip install -r requirements.txt
 ```
 
-**Python version used:** Python 3.10.20  
-**Virtual environment:** `.venv`  
-**Dependency file:** `requirements.txt`
-
-For the homework reproduction, use a fresh clone and create a new virtual environment instead of reusing the original `.venv`.
-
-## 4. Model and Checkpoint
-
-The pretrained model used in this experiment is Depth Anything V2 ViT-L.
-
-**Checkpoint path:**
-
-```text
-checkpoints/depth_anything_v2_vitl.pth
-```
-
-During the initial setup, the original checkpoint was found to be corrupted or incomplete. I downloaded the official checkpoint again and replaced the faulty file. Inference succeeded after the checkpoint issue was resolved.
-
-## 5. Inference
-
-**Input directory:** `assets/examples/`  
-**Output directory:** `depth_vis/`
-
-Run the following command from the repository root:
+Check out the tested commit:
 
 ```bash
-python run.py --encoder vitl --img-path assets/examples --outdir depth_vis
+git checkout a561b849ebae10a6f5ef49e26c83cbbcd36c71bf
 ```
 
-The command runs the pretrained ViT-L model on the example images and saves the resulting depth visualizations in `depth_vis/`.
+Verify the commit:
 
-## 6. Verification and Evidence
+```bash
+git rev-parse HEAD
+```
 
-The inference completed successfully for all 20 example images:
-
-- 20 out of 20 images processed.
-- 20 PNG output files generated.
-- The output files had non-zero sizes.
-- The total output size was approximately 86 MB.
-
-Example output paths:
+Expected output:
 
 ```text
-depth_vis/demo01.png
-depth_vis/demo02.png
+a561b849ebae10a6f5ef49e26c83cbbcd36c71bf
+```
+
+### Step 4 — Install the required Python version
+
+Install Python 3.10.20:
+
+```bash
+uv python install 3.10.20
+```
+
+Locate the installed interpreter and create a virtual environment:
+
+```bash
+PYTHON_BIN="$(uv python find 3.10.20)"
+"$PYTHON_BIN" -m venv .venv
+```
+
+Verify the Python version:
+
+```bash
+.venv/bin/python --version
+```
+
+Expected output:
+
+```text
+Python 3.10.20
+```
+
+**Important:** Always use `.venv/bin/python` for this project. Do not rely on the system `python` or `python3` command.
+
+### Step 5 — Install Python dependencies
+
+The repository provides `requirements.txt`. For reproducible installation, use the committed dependency lockfile:
+
+```bash
+uv pip sync --python .venv/bin/python requirements-lock.txt
+```
+
+Verify the required packages:
+
+```bash
+.venv/bin/python -c "import torch, torchvision, cv2, matplotlib; print('All imports successful'); print('PyTorch:', torch.__version__); print('Torchvision:', torchvision.__version__); print('CUDA available:', torch.cuda.is_available())"
+```
+
+Expected output includes:
+
+```text
+All imports successful
+```
+
+The CUDA value may be `True` or `False`, depending on the available GPU and driver configuration.
+
+## 4. Download the pretrained model
+
+Create the checkpoint directory:
+
+```bash
+mkdir -p checkpoints
+```
+
+Download the ViT-L pretrained checkpoint:
+
+```bash
+curl -fL --retry 3 --retry-all-errors \
+"https://huggingface.co/depth-anything/Depth-Anything-V2-Large/resolve/main/depth_anything_v2_vitl.pth" \
+-o checkpoints/depth_anything_v2_vitl.pth
+```
+
+Verify the downloaded file:
+
+```bash
+test -s checkpoints/depth_anything_v2_vitl.pth && echo "Checkpoint download successful"
+```
+
+Verify its SHA256 checksum:
+
+```bash
+echo "a7ea19fa0ed99244e67b624c72b8580b7e9553043245905be58796a608eb9345  checkpoints/depth_anything_v2_vitl.pth" | sha256sum -c -
+```
+
+Expected output:
+
+```text
+checkpoints/depth_anything_v2_vitl.pth: OK
+```
+
+This checksum is the reference checksum recorded from the successfully tested checkpoint.
+
+## 5. Run inference
+
+The repository includes 20 example images in:
+
+```text
+assets/examples/
+```
+
+Run the pretrained ViT-L model:
+
+```bash
+.venv/bin/python run.py \
+--encoder vitl \
+--img-path assets/examples \
+--outdir depth_vis
+```
+
+The script automatically selects CUDA when available, otherwise CPU on RHEL systems.
+
+Wait until the progress reaches:
+
+```text
+Progress 20/20: assets/examples/demo20.jpg
+```
+
+The output images will be saved in:
+
+```text
+depth_vis/
+```
+
+## 6. Verify the results
+
+Count the generated PNG files:
+
+```bash
+find depth_vis -type f -iname '*.png' | wc -l
+```
+
+Expected output:
+
+```text
+20
+```
+
+Check the output directory size:
+
+```bash
+du -sh depth_vis/
+```
+
+Expected output:
+
+```text
+Approximately 86M
+```
+
+List the generated files:
+
+```bash
+ls -lh depth_vis/
+```
+
+Expected files:
+
+```text
+demo01.png
+demo02.png
+demo03.png
 ...
-depth_vis/demo20.png
+demo20.png
 ```
 
-These files provide direct evidence that pretrained inference completed successfully.
+**Reproduction is successful when all 20 PNG files have been generated.**
 
-### Verification commands
+## 7. Troubleshooting
 
-```bash
-ls -lh depth_vis
-find depth_vis -maxdepth 1 -type f -name '*.png' | wc -l
-find depth_vis -maxdepth 1 -type f -name '*.png' | sort
-```
-
-## 7. One Real Failure
-
-**Category:** Checkpoint / asset
-
-### Root cause
-
-The original `depth_anything_v2_vitl.pth` checkpoint was corrupted or incompletely downloaded.
-
-### Observed impact
-
-The model could not be used reliably with the original checkpoint.
-
-### Minimal fix
-
-Download the official Depth Anything V2 ViT-L checkpoint again and replace the corrupted or incomplete file.
-
-### Verification
-
-Rerun the inference command:
-
-```bash
-python run.py --encoder vitl --img-path assets/examples --outdir depth_vis
-```
-
-The rerun processed all 20 example images and generated 20 PNG output files.
-
-### Lesson learned
-
-A model checkpoint is a critical project asset. When inference fails during model loading, verify that the checkpoint exists and is a complete, valid download before investigating unrelated dependencies.
-
-## 8. Warnings
-
-During execution, the following warning was observed:
-
-```text
-xFormers not available
-```
-
-Despite this warning, inference completed successfully for all 20 example images. The warning did not prevent successful inference, so it did not need to be resolved for this workshop run.
-
-## 9. AI Coding Agent
-
-**AI coding agent used:** GitHub Copilot
-
-### Reported change
-
-The agent was asked to change the Python version used by the virtual environment to Python 3.10. The reported agent-assisted change was limited to this environment setting.
-
-### Verification
-
-The environment was configured with Python 3.10.20, and pretrained inference subsequently processed 20 images and generated 20 PNG files. Re-downloading the checkpoint was a separate troubleshooting action.
-
-## 10. Reproducibility Test
-
-The original successful run demonstrates that inference works in the current environment. It does not by itself prove that another person can reproduce the result from a clean setup. A fresh-clone reproduction test is still needed.
-
-### Planned procedure
-
-1. Clone the repository into a new directory.
-2. Create a new virtual environment.
-3. Install the required dependencies.
-4. Download and verify the official pretrained checkpoint.
-5. Run inference using the documented command.
-6. Confirm that all 20 example images are processed.
-7. Verify the generated PNG files.
-8. Ask another student to follow this README independently.
-9. Record their feedback and update the instructions.
-
-**Fresh-clone reproduction status:** Pending  
-**Peer reproduction status:** Pending  
-**README revision based on peer feedback:** Pending
-
-## 11. Submission Evidence
-
-The final workshop submission should be organized under:
-
-```text
-MLMPworkshop/
-└── workshop02_AI_Project_Survival/
-    ├── README.md
-    └── evidence/
-        ├── input/
-        └── output/
-```
-
-### Recommended evidence
-
-- **Input evidence:** Representative example input image(s), or a reference to the repository's existing example images.
-- **Output evidence:** Representative generated depth visualization(s).
-- **Execution evidence:** Terminal output showing the inference command and successful processing.
-- **Verification evidence:** An output file listing showing the generated PNG files.
-- **Failure evidence:** The original checkpoint error, if available.
-- **Fix evidence:** A note showing that the official checkpoint was downloaded again.
-- **Reproducibility evidence:** Fresh-clone test results and peer feedback, once available.
-
-The generated outputs total approximately 86 MB. Unless the instructor requires every output file, a few representative images and a clear verification record may be sufficient instead of copying the entire output directory.
-
-## 12. Current Status
-
-**Core inference task: COMPLETED**
-
-| Requirement | Status |
+| Problem | Solution |
 |---|---|
-| Inspect the repository | Completed |
-| Configure the Python environment | Completed |
-| Install dependencies | Completed |
-| Resolve the checkpoint failure | Completed |
-| Run pretrained inference | Completed |
-| Process 20 example images | Completed |
-| Generate 20 PNG outputs | Completed |
-| Document the workflow | Completed |
-| Fresh-clone reproduction | Pending |
-| Peer reproduction | Pending |
-| Revise README based on feedback | Pending |
-| Finalize submission evidence | Pending |
+| Python version is incorrect | Use `.venv/bin/python`, not the system Python. |
+| `uv: command not found` | Run `export PATH="$HOME/.local/bin:$PATH"` again. |
+| `ModuleNotFoundError` | Run `uv pip sync --python .venv/bin/python requirements-lock.txt`. |
+| `libGL.so.1` is missing | Run `sudo dnf install -y mesa-libGL glib2`. |
+| CUDA is unavailable | The script can use CPU automatically. GPU inference requires a compatible NVIDIA driver and PyTorch installation. |
+| Checkpoint download is incomplete | Repeat the download command and verify the SHA256 checksum. |
+| `Permission denied` when entering a `.pth` file | A `.pth` file is model weights, not an executable program. Do not run it as a command. |
+| `xFormers not available` | This message is not fatal for the tested inference workflow. Continue if inference proceeds normally. |
 
-## 13. Conclusion
+## 8. Output structure
 
-The pretrained inference task for Workshop 02 has been completed successfully in the original working environment. The model processed all 20 example images and generated 20 PNG output files.
+After successful inference, the project directory should contain:
 
-The next objective is to reproduce the result from a fresh clone, obtain peer feedback, and finalize the submission evidence.
+```text
+Depth-Anything-V2/
+├── assets/
+│   └── examples/
+│       ├── demo01.jpg
+│       ├── demo02.jpg
+│       └── ...
+│       └── demo20.jpg
+├── checkpoints/
+│   └── depth_anything_v2_vitl.pth
+├── depth_anything_v2/
+├── depth_vis/
+│   ├── demo01.png
+│   ├── demo02.png
+│   └── ...
+│   └── demo20.png
+├── .venv/
+├── requirements.txt
+├── requirements-lock.txt
+└── run.py
+```
+
+## 9. Reproducibility information
+
+The following configuration was successfully tested:
+
+- Fresh Git clone.
+- Exact commit checkout.
+- Python 3.10.20 virtual environment.
+- Dependencies installed from the lockfile.
+- ViT-L pretrained checkpoint downloaded and verified.
+- All 20 example images processed successfully.
+- 20 PNG depth visualisations generated.
+- Total output size: approximately 86 MB.
+
+The Git working tree may show untracked `checkpoints/`, `depth_vis/`, and `__pycache__/` directories. These are generated files and do not indicate an inference failure.
+
+---
