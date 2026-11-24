@@ -225,21 +225,13 @@ demo20.png
 
 **Category:** Checkpoint / asset
 
-### Root cause
+**Root cause:** The original `depth_anything_v2_vitl.pth` checkpoint was corrupted or incompletely downloaded.
 
-The original `depth_anything_v2_vitl.pth` checkpoint was corrupted or incompletely downloaded.
+**Observed impact:** The model could not be used reliably with the original checkpoint.
 
-### Observed impact
+**Minimal fix:** Download the official Depth Anything V2 ViT-L checkpoint again and replace the corrupted or incomplete file.
 
-The model could not be used reliably with the original checkpoint.
-
-### Minimal fix
-
-Download the official Depth Anything V2 ViT-L checkpoint again and replace the corrupted or incomplete file.
-
-### Verification
-
-Rerun the inference command:
+**Verification:** Rerun the inference command:
 
 ```bash
 python run.py --encoder vitl --img-path assets/examples --outdir depth_vis
