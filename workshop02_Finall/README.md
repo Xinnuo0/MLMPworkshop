@@ -286,21 +286,6 @@ Depth-Anything-V2/
 └── run.py
 ```
 
-## 9. Reproducibility information
-
-The following configuration was successfully tested:
-
-- Fresh Git clone.
-- Exact commit checkout.
-- Python 3.10.20 virtual environment.
-- Dependencies installed from the lockfile.
-- ViT-L pretrained checkpoint downloaded and verified.
-- All 20 example images processed successfully.
-- 20 PNG depth visualisations generated.
-- Total output size: approximately 86 MB.
-
-The Git working tree may show untracked `checkpoints/`, `depth_vis/`, and `__pycache__/` directories. These are generated files and do not indicate an inference failure.
-
 ---
 
 
