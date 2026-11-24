@@ -243,17 +243,8 @@ The rerun processed all 20 example images and generated 20 PNG output files.
 
 A model checkpoint is a critical project asset. When inference fails during model loading, verify that the checkpoint exists and is a complete, valid download before investigating unrelated dependencies.
 
-## 6. Warnings
 
-During execution, the following warning was observed:
-
-```text
-xFormers not available
-```
-
-Despite this warning, inference completed successfully for all 20 example images. The warning did not prevent successful inference, so it did not need to be resolved for this workshop run.
-
-## 7. AI Agent Check
+## 6. AI Agent Check
 
 **Which AI coding agent did you use?:** GitHub Copilot
 
