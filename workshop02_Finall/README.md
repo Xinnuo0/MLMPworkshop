@@ -1,26 +1,3 @@
-# Depth Anything V2 — Installation and Reproduction Guide
-
-## 1. Project Overview
-
-**Repository:** [Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2)  
-**Inference task:** This project uses the pretrained AI model Depth Anything V2 to estimate the relative depth of objects and their surroundings from a single image. The ViT-L model processes sample images and generates depth maps.
-
-### Tested configuration
-
-| Component | Version / Configuration |
-|---|---|
-| Repository | Depth Anything V2 |
-| Git commit | `a561b849ebae10a6f5ef49e26c83cbbcd36c71bf` |
-| Python | 3.10.20 |
-| PyTorch | 2.14.1+cu130 |
-| Torchvision | 0.29.2+cu132 |
-| Model | ViT-L |
-| Checkpoint | `depth_anything_v2_vitl.pth` |
-| Input images | 20 JPG files |
-| Expected outputs | 20 PNG files |
-| Tested output size | Approximately 86 MB |
-
-**Important:** Use the specified Git commit and Python version. Do not use the system-default Python interpreter.
 
 ## 2. Requirements
 
