@@ -22,11 +22,22 @@
 
 ## Environment setup
 
-Work in a separate folder from this submission repository (`~/workshop02_projects/`). Replace nothing: the commit SHA below is the exact version I used.
+Work in a separate folder from this submission repository (`~/workshop02_projects/`). Replace nothing.
 
 ```bash
 mkdir -p ~/workshop02_projects
 cd ~/workshop02_projects
+git clone https://github.com/DepthAnything/Depth-Anything-V2.git Depth-Anything-V2_fresh
+cd Depth-Anything-V2_fresh
+git checkout a561b849ebae10a6f5ef49e26c83cbbcd36c71bf
+uv python install 3.10
+uv venv --python 3.10
+source .venv/bin/activate
+uv pip install -r requirements.txt
+```
+```bash
+mkdir -p Depth-Anything-V2-Reproduction
+cd Depth-Anything-V2-Reproduction
 git clone https://github.com/DepthAnything/Depth-Anything-V2.git Depth-Anything-V2_fresh
 cd Depth-Anything-V2_fresh
 git checkout a561b849ebae10a6f5ef49e26c83cbbcd36c71bf
