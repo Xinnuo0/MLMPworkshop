@@ -221,7 +221,7 @@ demo20.png
 
 
 
-## 7. One Real Failure
+## 5. One Real Failure
 
 **Category:** Checkpoint / asset
 
@@ -251,7 +251,7 @@ The rerun processed all 20 example images and generated 20 PNG output files.
 
 A model checkpoint is a critical project asset. When inference fails during model loading, verify that the checkpoint exists and is a complete, valid download before investigating unrelated dependencies.
 
-## 8. Warnings
+## 6. Warnings
 
 During execution, the following warning was observed:
 
@@ -261,7 +261,7 @@ xFormers not available
 
 Despite this warning, inference completed successfully for all 20 example images. The warning did not prevent successful inference, so it did not need to be resolved for this workshop run.
 
-## 9. AI Coding Agent
+## 7. AI Agent Check
 
 **Which AI coding agent did you use?:** GitHub Copilot
 
@@ -270,11 +270,3 @@ Despite this warning, inference completed successfully for all 20 example images
 **What command or fix did you apply yourself?:**
 
 **How did you verify the result yourself?:**
-
-### Reported change
-
-The agent was asked to change the Python version used by the virtual environment to Python 3.10. The reported agent-assisted change was limited to this environment setting.
-
-### Verification
-
-The environment was configured with Python 3.10.20, and pretrained inference subsequently processed 20 images and generated 20 PNG files. Re-downloading the checkpoint was a separate troubleshooting action.
