@@ -10,7 +10,7 @@
 
 ## Repo map
 
-**Environment:** `requirements.txt` in the repository root (no `pyproject.toml`). Python and package versions are not pinned. I used Python 3.10.
+**Environment:** `requirements.txt` in the repository root (no `pyproject.toml`). The README and `requirements.txt` do not pin a Python version or package versions. I used Python 3.10.
 
 **Entry point:** `run.py`
 
