@@ -8,7 +8,6 @@
 
 **Inference task:** Monocular depth estimation (one RGB image in, a depth map image out)
 
-**Evidence for comparison:** `evidence/input.jpg` and `evidence/output.png` in this folder (https://github.com/Xinnuo0/MLMPworkshop/tree/main/assignment01_AI_Project_Survival/evidence)
 
 ## Repo map
 
@@ -179,6 +178,8 @@ Expected: `demo01.png` to `demo20.png`, and the count is `20`.
 
 Open `depth_vis/demo01.png` and compare it with `evidence/output.png`, and the original `assets/examples/demo01.jpg` with `evidence/input.jpg`. The result should be a colour-mapped depth image whose shapes match the photo. Tiny pixel differences between machines are acceptable.
 
+**Evidence for comparison:** `evidence/input.jpg` and `evidence/output.png` in this folder (https://github.com/Xinnuo0/MLMPworkshop/tree/main/assignment01_AI_Project_Survival/evidence)
+
 **Successful reproduction:** the command finished without errors, 20 PNG files exist, and `demo01.png` looks like `evidence/output.png`.
 
 ## One real failure
@@ -193,7 +194,6 @@ Open `depth_vis/demo01.png` and compare it with `evidence/output.png`, and the o
 
 **Minimal fix:** Create `checkpoints/`, download the Small weights (`depth_anything_v2_vits.pth`, 95 MB) into it, and run with `--encoder vits` so the requested file name matches the downloaded file. No additional Python packages were installed.
 
-**Side note:** My first download attempt returned `404 Not Found` because I had typed backslashes inside the quoted URL (they appeared as `%5C` in the request). It also left a 0-byte file, which I found with `ls -lh checkpoints`, deleted with `rm`, and then downloaded again with the correct URL.
 
 ## AI agent check
 
