@@ -95,13 +95,13 @@ which python
 python --version
 ```
 
-Expected:
+What to check:
 
-`pwd` ends with `Depth-Anything-V2-Reproduction/Depth-Anything-V2`
+`pwd` should end with `Depth-Anything-V2-Reproduction/Depth-Anything-V2` (the folder created in Steps 1 and 2).
 
-`which python` points to the `.venv/bin/python` inside this repository
+`which python` must point to the `.venv/bin/python` inside this repository. If it points anywhere else, the environment is not activated: run `source .venv/bin/activate` again.
 
-`python --version` prints `Python 3.10.x` (I got `3.10.20`)
+`python --version` must print a `Python 3.10` version. On my computer it printed `Python 3.10.20`. The last number may differ on your computer, which is fine.
 
 All following commands assume this environment is activated. If you open a new terminal, go back to this folder and run `source .venv/bin/activate` again.
 
@@ -183,10 +183,6 @@ Open `depth_vis/demo01.png` and compare it with `evidence/output.png`, and the o
 
 ## One real failure
 
-**Command:** `python run.py --encoder vitl --img-path assets/examples --outdir depth_vis`
-
-**Error:** `FileNotFoundError: [Errno 2] No such file or directory: 'checkpoints/depth_anything_v2_vitl.pth'`
-
 **Category:** CHECKPOINT / ASSET
 
 **Root cause:** The repository does not include pretrained weights. `run.py` builds the path `checkpoints/depth_anything_v2_{encoder}.pth` and tries to load it, but the `checkpoints/` folder and the file did not exist. The traceback reached line 36 of `run.py`, which showed that the Python version, dependencies and command were fine.
@@ -198,8 +194,8 @@ Open `depth_vis/demo01.png` and compare it with `evidence/output.png`, and the o
 
 **Which AI coding agent did you use?:** I used Github Copilot in VS Code, and also tried Codex for the initial promots.
 
-**What advice did it give?:** Python 3.10 was recommended because neither the README nor `requirements.txt` specifies a version, and 3.10 is a conservative choice for PyTorch, torchvision, OpenCV and Gradio. For the inference command, Codex suggested `python -m pip install -r requirements.txt` for installation.
+**What advice did it give?:** Since neither the README nor `requirements.txt` specifies a version, Copilot suggested using Python 3.10. The 3.10 is a conservative choice for PyTorch, torchvision, OpenCV and Gradio. For the inference command, Copilot suggested the Large model (`vitl`) with `depth_anything_v2_vitl.pth`. Codex suggested `python -m pip install -r requirements.txt` for installation.
 
-**What command or fix did you apply yourself?:** I created the environment myself using `uv venv --python 3.10`, then installed the dependencies with `uv pip install -r requirements.txt`, as the virtual environment created by `uv venv` does not include pip by default. I also downloaded the small checkpoint manually and change the relevant commands to use `--encoder vits`. 
+**What command or fix did you apply yourself?:** I created the environment myself using `uv venv --python 3.10`, then installed the dependencies with `uv pip install -r requirements.txt`, as the virtual environment created by `uv venv` does not include pip by default. I decided not to use the large model recommended by Copilot. Since this task only required one successful inference run and the larger model files take up considerably more space, I chose the smalle model (`vits`). I manually downloaded the small checkpoint and change the commands to `--encoder vits`. 
 
-**How did you verify the result yourself?:** I ran `python --version`, which returned 3.10.20, and used `which python` to confirm that Python was running the repository's `.venv` directory. I checked `ls -lh checkpoints`, which showed a file size of 95 MB. After running the inference command, the terminal showed progress 20/20 and `ls depth_vis` listed 20 PNG files. I opened `evidence/output.png` alongside `evidence/input.jpg` and checked that the object outlines in the output image matched those in the input image.
+**How did you verify the result yourself?:** I ran `python --version`, which returned 3.10.20, and used `which python` to confirm that Python was running the repository's `.venv` directory. I checked `ls -lh checkpoints`, which showed a file size of 95 MB. After running the inference command, the terminal showed progress 20/20 and `ls depth_vis` listed 20 PNG files. Then I opened `evidence/output.png` next to `evidence/input.jpg` and checked that the object outlines in the output image matched those in the input image. 
