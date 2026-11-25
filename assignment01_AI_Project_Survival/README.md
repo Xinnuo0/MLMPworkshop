@@ -1,9 +1,6 @@
 # Assignment 1: AI Project Survival — Depth Anything V2 Reproduction Guide
 
-This guide creates a clean, independent reproduction environment on a Linux computer (written for RHEL-family systems). It does not modify the system Python installation. Everything is created inside one new folder in your home directory.
-
 ## Project
-
 
 **Repository URL:** https://github.com/DepthAnything/Depth-Anything-V2.git
 
@@ -27,7 +24,7 @@ This guide creates a clean, independent reproduction environment on a Linux comp
 
 ## Environment setup
 
-Follow the steps in order. If the folder from Step 1 already exists from an earlier attempt, delete it or use another name, so that you start from a clean state.
+Follow the steps in order. If the folder from Step 1 already exists from an earlier attempt, delete it or use another name so that you can create a clean, independent reproduction environment.
 
 ### Step 1 — Create a dedicated reproduction folder
 
