@@ -2,17 +2,23 @@
 
 ## Project
 
-- **Repository URL:** https://github.com/DepthAnything/Depth-Anything-V2.git
-- **Exact commit:** `a561b849ebae10a6f5ef49e26c83cbbcd36c71bf`
-- **Inference task:** Monocular depth estimation (one RGB image in, a depth map image out)
+**Repository URL:** https://github.com/DepthAnything/Depth-Anything-V2.git
+
+**Exact commit:** `a561b849ebae10a6f5ef49e26c83cbbcd36c71bf`
+
+**Inference task:** Monocular depth estimation (one RGB image in, a depth map image out)
 
 ## Repo map
 
-- **Environment:** `requirements.txt` in the repository root (no `pyproject.toml`). Python and package versions are not pinned. I used Python 3.10.
-- **Entry point:** `run.py`
-- **Model:** Depth Anything V2 Small (`vits`), checkpoint `depth_anything_v2_vits.pth` (about 95 MB), not included in the repository and downloaded manually into `checkpoints/`
-- **Input:** the 20 images in `assets/examples/` (`evidence/input.jpg` is `demo01.jpg`)
-- **Output:** `depth_vis/*.png` (`evidence/output.png` is `demo01.png`)
+**Environment:** `requirements.txt` in the repository root (no `pyproject.toml`). Python and package versions are not pinned. I used Python 3.10.
+
+**Entry point:** `run.py`
+
+**Model:** Depth Anything V2 Small (`vits`), checkpoint `depth_anything_v2_vits.pth` (about 95 MB), not included in the repository and downloaded manually into `checkpoints/`
+
+**Input:** the 20 images in `assets/examples/` (`evidence/input.jpg` is `demo01.jpg`)
+
+**Output:** `depth_vis/*.png` (`evidence/output.png` is `demo01.png`)
 
 ## Environment setup
 
